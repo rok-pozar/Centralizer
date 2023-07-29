@@ -1,10 +1,10 @@
 LoadPackage("datastructures");
 
 #
-# treeParent - List of parents of a Schreier tree, where treeParent[i] is the parent of i,
+# treeParent  - List of parents of a Schreier tree, where treeParent[i] is the parent of i,
 #                     that is, there is an arc from treeParent[i] to i in the Schreier tree
 # treeLabel   - List of labels, where treeLabel[i] is the label of the arc from treeParent[i] to i 
-# u                - tree vertex
+# u           - tree vertex
 #
 # This function traces the Schreier tree given by treeParent and treeLabel and 
 # returns and returns a word in the generators that maps the root to u. 
@@ -25,7 +25,7 @@ end);
 
 
 #
-# w - List of positive integers less than or equal to d  
+# w  - List of positive integers less than or equal to d  
 # d  - number of all generators (labels)
 #
 # This function returns the inverse word of w, where
@@ -48,8 +48,8 @@ function(w, d)
 end);
 
 #
-# V          - List of points from {1, 2, ..., n}
-# T	       - List of permutations on {1, 2, ..., n} 
+# V       - List of points from {1, 2, ..., n}
+# T	  - List of permutations on {1, 2, ..., n} 
 # kappa   - List of indices from {1, 2, ..., d} corresponding to permutation word
 #
 # This function returns the partition of V into C and O such that 
@@ -120,11 +120,11 @@ end);
 
 
 #
-# T1        - List of group generators acting  transitively on {1, 2, ..., n} 
-# T2        - List of group generators acting  transitively on {1, 2, ..., n} 
-# alpha   - point in {1, 2, ..., n} 
-# beta     - point in {1, 2, ..., n} 
-# n          - degree
+# T1        - List of group generators acting transitively on {1, 2, ..., n} 
+# T2        - List of group generators acting transitively on {1, 2, ..., n} 
+# alpha     - point in {1, 2, ..., n} 
+# beta      - point in {1, 2, ..., n} 
+# n         - degree
 #
 #
 # This function returns an equivalence phi between the actions T1 and T2, respectively, 
@@ -139,15 +139,15 @@ function(T1, T2, alpha, beta, n)
 	local  i, d, phi, Q, x1, x2, u, T1Label, T2Label, T1Parent, T2Parent, word, k, r;
 	d:=Length(T1);
 	phi := List([1..n], x -> 0); 
-	phi[alpha] := beta;                                                        #potential equivalence mapping alpha to beta
+	phi[alpha] := beta;                                             # potential equivalence mapping alpha to beta
 	T1Parent := List([1..n], x -> 0); 
 	T1Parent[alpha] := -1;                                                  
 	T1Label := List([1..n], x -> 0); 
-	T1Label[alpha] := -1; 						#Schreier tree for T1 with root alpha
+	T1Label[alpha] := -1; 						# Schreier tree for T1 with root alpha
 	T2Parent := List([1..n], x -> 0); 
 	T2Parent[beta] := -1;	 
 	T2Label := List([1..n], x -> 0); 
-	T2Label[beta] := -1;							#Schreier tree for T2 with root beta
+	T2Label[beta] := -1;					        # Schreier tree for T2 with root beta
 	Q := FIFOnew(n);
 	FIFOenqueue(Q, alpha);	
 	while not FIFOempty(Q) do
@@ -155,20 +155,20 @@ function(T1, T2, alpha, beta, n)
 		for i in [1..d] do
 			x1 := T1[i]; 
 			x2 := T2[i];
-			if T1Label[u^x1] <> 0 then                                  #a cotree arc in Schreier tree for T1
+			if T1Label[u^x1] <> 0 then                                 # a cotree arc in Schreier tree for T1
 				if  (phi[u])^x2 <> phi[u^x1]  then                 # a discrimination word closed in Schreier digraph for T1
 					r := TraceTree(T1Parent, T1Label, u);
 					Add(r, i);
 					word := Concatenation(r, inverseWord(TraceTree(T1Parent, T1Label, u^x1),d));
 					return [0, word];
 				fi;
-			else                                                                     #a tree arc in Schreier tree for T1
-				if phi[u^x1] > 0 then                                    #a discrimination word closed in Schreier digraph for T2	
+			else                                                        # a tree arc in Schreier tree for T1
+				if phi[u^x1] > 0 then                               # a discrimination word closed in Schreier digraph for T2	
 					r := TraceTree(T2Parent, T2Label, phi[u]);
 					Add(r, T2Label[phi[u^x1]]);
 					word := Concatenation(r, inverseWord(TraceTree(T2Parent, T2Label, phi[u^x1]),d));
 					return [0, word];
-				else                                                              # expand the map
+				else                                                # expand the map
 					FIFOenqueue(Q, u^x1);
 					phi[u^x1] := (phi[u])^x2; 
 					T1Parent[u^x1] := u; 
@@ -234,7 +234,7 @@ end);
 #
 # T1        - List of group generators acting  transitively on {1, 2, ..., n} 
 # T2        - List of group generators acting  transitively on {1, 2, ..., n} 
-# n          - degree
+# n         - degree
 #
 # This function tests whether two transitive actions T1 and T2 on {1, 2, ..., n}  are equivalent.
 # 
@@ -270,7 +270,7 @@ function(T1, T2, n)
 end);
 
 ##########################################################
-##                                     Main function
+#                     Main function
 ##########################################################
 #
 # G        - Permutation group acting on {1, 2, ..., n} 
@@ -342,8 +342,8 @@ function(G, n)
 				Tj := Tr[j];
 				phi := TransitiveEquivalence(Ti, Tj, ki);
 				if phi <> [] then
-				# relabel into original labels and
-				# interchange Ti and Tj (that is, both orbits) and leave fixed outside 
+				        # relabel into original labels and
+				        # interchange Ti and Tj (that is, both orbits) and leave fixed outside 
 					conv := List([1..n], x -> x);
 					for l in [1..ki] do
 						conv[orbi[l]] := orbj[phi[l]]; 
